@@ -8,9 +8,16 @@ import User from './pages/User';
 const { Navigator, Screen } = createStackNavigator();
 
 export default function Routes() {
+  const globalStylesHeader = {
+    headerStyle: {
+      backgroundColor: '#7159C1',
+    },
+    headerTintColor: '#FFF',
+  };
+
   return (
     <NavigationContainer>
-      <Navigator>
+      <Navigator screenOptions={globalStylesHeader}>
         <Screen name="Main" component={Main} />
         <Screen name="User" component={User} />
       </Navigator>
