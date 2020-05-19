@@ -15,7 +15,7 @@ export default function Main() {
         />
 
         <SubmitButton>
-          <Icon name="add" />
+          <Icon name="add" size={20} color="#FFF" />
         </SubmitButton>
       </Form>
     </Container>
