@@ -18,7 +18,7 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Navigator screenOptions={globalStylesHeader}>
-        <Screen name="Main" component={Main} />
+        <Screen name="Usuários" component={Main} />
         <Screen name="User" component={User} />
       </Navigator>
     </NavigationContainer>
