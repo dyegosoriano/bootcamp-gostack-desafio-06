@@ -19,7 +19,11 @@ export default function Routes() {
     <NavigationContainer>
       <Navigator screenOptions={globalStylesHeader}>
         <Screen name="Usuários" component={Main} />
-        <Screen name="User" component={User} />
+        <Screen
+          name="User"
+          component={User}
+          options={({ route }) => ({ title: route.params.user.name })}
+        />
       </Navigator>
     </NavigationContainer>
   );
