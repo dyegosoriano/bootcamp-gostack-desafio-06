@@ -21,11 +21,11 @@ import {
 } from './styles';
 
 export default function Main() {
+  const navigation = useNavigation();
+
   const [newUser, setNewUser] = useState('');
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const navigation = useNavigation();
 
   function handleNavigate(user) {
     navigation.navigate('User', { user });
@@ -46,20 +46,25 @@ export default function Main() {
   async function handleAddUser() {
     setLoading(true);
 
-    const response = await api.get(`/users/${newUser}`);
+    try {
+      const response = await api.get(`/users/${newUser}`);
 
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
+      const data = {
+        name: response.data.name,
+        login: response.data.login,
+        bio: response.data.bio,
+        avatar: response.data.avatar_url,
+      };
 
-    setUsers([...users, data]);
-    setNewUser('');
-    setLoading(false);
+      setUsers([...users, data]);
+      setNewUser('');
+      setLoading(false);
 
-    Keyboard.dismiss();
+      Keyboard.dismiss();
+    } catch (error) {
+      console.tron.log(error);
+      setLoading(false);
+    }
   }
 
   return (

@@ -21,30 +21,45 @@ export default function User() {
   const { user } = route.params;
 
   const [stars, setStars] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(async () => {
+  async function loadMore() {
+    if (loading) return;
+
+    setLoading(true);
+
     try {
-      const response = await api.get(`/users/${user.login}/starred`);
-      setStars(response.data);
+      const response = await api.get(`/users/${user.login}/starred`, {
+        params: { page },
+      });
+
+      setStars([...stars, ...response.data]);
+      setPage(page + 1);
     } catch (error) {
       console.tron.log(error);
     }
-  }, []);
 
-  console.tron.log(user);
-  console.tron.log(stars);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    loadMore();
+  }, []);
 
   return (
     <Container>
       <Header>
         <Avatar source={{ uri: user.avatar }} />
         <Name>{user.name}</Name>
-        <Bio>Biografia {user.bio}</Bio>
+        <Bio>{user.bio}</Bio>
       </Header>
 
       <Stars
         data={stars}
         keyExtractor={(star) => String(star.id)}
+        onEndReachedThreshold={0.2}
+        onEndReached={loadMore}
         renderItem={({ item }) => (
           <Starred>
             <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
